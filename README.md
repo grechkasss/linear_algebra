@@ -1,6 +1,7 @@
-# linear_algebra
-To understand and repeat linear algebra. Also write your own library without using Numpy
-Implemented:
+#Linear Algebra From Scratch
+Цель: Разобраться и повторить линейную алгебру. Так же написать собственную библиотеку без использование Numpy
+
+Реализованно:
 shape
 add
 subtract
@@ -25,7 +26,8 @@ rank
 reverse_gaussian_elimination
 solve
 eigenvalues_2x2
-The plans include:
+
+В планах:
 eigenvectors_2x2
 QR
 LU
