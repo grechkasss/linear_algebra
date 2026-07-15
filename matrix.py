@@ -305,6 +305,27 @@ def eigenvalues_2x2(A:list):
     lambda2 = (trace + sqrt(D))/2
     return [lambda1,lambda2]
 
+def eigenvectors_2x2(A:list,lam: int):
+    M = subtract(A, multiply_scalar(identity(2),lam))
+    a,b = M[0]
+    if abs(a) > 1e-12:
+        y = 1
+        x = -b/a
+    elif abs(b)> 1e-12:
+        x = 1
+        y = -a/b
+    else:
+        # if first str = 0
+        a,b = M[1]
+        if abs(a) > 1e-12:
+            y = 1
+            x = -b / a
+        elif abs(b) > 1e-12:
+            x = 1
+            y = -a / b
+        else:
+            return [1,0]
+    return [x,y]
 
 
 
