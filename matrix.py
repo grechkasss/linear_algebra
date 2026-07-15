@@ -11,6 +11,7 @@ def shape(N:list):
     return (len(N),len(N[0]))
 
 def add_matrixa(A:list,B:list):
+
     C = copy(A)
     for i in range(shape(C)[0]):
         for j in range(shape(B)[1]):
@@ -32,7 +33,7 @@ def add(A:list, B:list):
 
 def subtract(A:list, B:list):
     if len(A) != len(B) or len(A[0]) != len(B[0]):
-        return False
+        raise ValueError("Error size matrix")
     else:
         Z = []
         q = []
@@ -68,7 +69,7 @@ def transpose(A:list):
 
 def multiply(A:list,B:list):
     if shape(A)[1] != shape(B)[0]:
-        return False
+        raise ValueError("Error size matrix")
 
     rows_A = shape(A)[0]
     cols_A = shape(A)[1]
@@ -104,16 +105,9 @@ def ones(rows:int,colwns:int):
     return Z
 
 def identity(x):
-    Z = []
+    Z = ones(x,x)
     for i in range(x):
-        q = []
-        for j in range(x):
-            q.append(0)
-        Z.append(q)
-    for i in range(x):
-        for j in range(x):
-            if i == j:
-                Z[i][j] = 1
+        Z[i][i] = 1
     return Z
 
 def random_matrix(rows:int, colwns:int, a,b):
@@ -145,7 +139,7 @@ def trace(A:list):
         for i in range(shape(A)[0]):
             summ += A[i][i]
         return summ
-    else: return "Eblan???"
+    else: raise ValueError("Error size matrix")
 
 def diagonal(A:list):
     if shape(A)[0] == shape(A)[1]:
@@ -153,7 +147,7 @@ def diagonal(A:list):
         for i in range(shape(A)[0]):
             diag.append(A[i][i])
         return diag
-    else: return "Eblan???"
+    else: raise ValueError("Error size matrix")
 
 def swap_rows(A:list, first_rows:int, second_rows:int):
     B = copy(A)
@@ -284,6 +278,8 @@ def make_identity(A:list):
 
 
 def solve(A: list, b: list):
+    if shape(A)[0] != shape(b)[0]:
+        raise ValueError("Error size matrix, rows A != rows b")
     C = add_matrixa(A, b)
     processed_matrix = reverse_gaussian_elimination(gaussian_elimination(C))
     x = get_colums(processed_matrix, -1)
@@ -292,7 +288,7 @@ def solve(A: list, b: list):
 def eigenvalues_2x2(A:list):
     B = copy(A)
     if shape(A) != (2,2):
-        raise ValueError("Функция для матрицы 2 на 2")
+        raise ValueError("Error size matrix, func work matrix 2x2")
     a = B[0][0]
     d = B[1][1]
 
@@ -300,12 +296,14 @@ def eigenvalues_2x2(A:list):
     det = determinant(B)
     D = trace**2 - 4*det
     if D < 0:
-        raise ValueError("Комплексные значыения не поддерживаются")
+        raise ValueError("complex values are not supported")
     lambda1 = (trace + sqrt(D))/2
     lambda2 = (trace + sqrt(D))/2
     return [lambda1,lambda2]
 
 def eigenvectors_2x2(A:list,lam: int):
+    if shape(A) != (2,2):
+        raise ValueError("Error size matrix")
     M = subtract(A, multiply_scalar(identity(2),lam))
     a,b = M[0]
     if abs(a) > 1e-12:
@@ -326,7 +324,5 @@ def eigenvectors_2x2(A:list,lam: int):
         else:
             return [1,0]
     return [x,y]
-
-
 
 
