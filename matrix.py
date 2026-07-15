@@ -11,7 +11,6 @@ def shape(N:list):
     return (len(N),len(N[0]))
 
 def add_matrixa(A:list,B:list):
-
     C = copy(A)
     for i in range(shape(C)[0]):
         for j in range(shape(B)[1]):
@@ -44,7 +43,7 @@ def subtract(A:list, B:list):
             q = []
         return Z
 
-def multiply_scalar(A:list, x:int):
+def multiply_scalar(A:list, x:float):
     B = copy(A)
     for i in range(len(A)):
         for j in range(len(A[0])):
@@ -52,6 +51,8 @@ def multiply_scalar(A:list, x:int):
     return B
 
 def divide_scalar(A:list, x:int):
+    if x == 0:
+        raise ZeroDivisionError("x = 0")
     B = copy(A)
     for i in range(len(A)):
         for j in range(len(A[0])):
@@ -105,7 +106,7 @@ def ones(rows:int,colwns:int):
     return Z
 
 def identity(x):
-    Z = ones(x,x)
+    Z = zeros(x,x)
     for i in range(x):
         Z[i][i] = 1
     return Z
@@ -168,6 +169,8 @@ def get_colums(A:list, number_colums):
     return C
 
 def determinant_2x2(A:list):
+    if shape(A) != (2,2):
+        raise ValueError("Error size matrix, func work 2x2 matrix")
     B = copy(A)
     del_1 = 1
     del_2 = 1
@@ -191,6 +194,8 @@ def sub_matrix(A:list,number_row: int, number_colum:int):
     return B
 
 def determinant_3x3(A:list):
+    if shape(A) != (3,3):
+        raise ValueError("Error size matrix, func work 3x3 matrix")
     finall_deteminant = 0
     B = copy(A)
     for i in range(shape(A)[1]):
@@ -198,6 +203,13 @@ def determinant_3x3(A:list):
     return finall_deteminant
 
 def determinant(A:list):
+    """
+    Compute determinant of square matrix recursively
+    Parameters: A - list[list]
+    returns: float
+    """
+    if not is_square(A):
+        raise ValueError("Error size matrix, matrix A is not square")
     if shape(A)[0] == 1:
         final_determinant = A[0][0]
         return final_determinant
@@ -208,6 +220,8 @@ def determinant(A:list):
         return final_determinant
 
 def inverse(A:list):
+    if determinant(A) == 0:
+        raise ValueError("Inverse matrix does not exist because det = 0")
     B = []
     det = determinant(A)
     A_T = transpose(A)
@@ -298,7 +312,7 @@ def eigenvalues_2x2(A:list):
     if D < 0:
         raise ValueError("complex values are not supported")
     lambda1 = (trace + sqrt(D))/2
-    lambda2 = (trace + sqrt(D))/2
+    lambda2 = (trace - sqrt(D))/2
     return [lambda1,lambda2]
 
 def eigenvectors_2x2(A:list,lam: int):

@@ -26,8 +26,9 @@ rank
 reverse_gaussian_elimination
 solve
 eigenvalues_2x2
-The plans include:
 eigenvectors_2x2
+
+The plans include:
 QR
 LU
 SVD
